@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElectroMart Navbar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-link {
+      transition: all 0.3s ease;
+      font-weight: 500;
+      color: #333;
+    }
+    .nav-link:hover {
+      color: #0d6efd;
+      text-decoration: underline;
+    }
+    .btn-custom {
+      transition: background-color 0.3s ease;
+      font-weight: 500;
+    }
+    .btn-custom:hover {
+      background-color: #0d6efd;
+      color: #fff;
+    }
+    .cart-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 10px;
+    }
+    .cart-wrapper .icon {
+      font-size: 1.5rem;
+      position: relative;
+    }
+    .cart-wrapper .label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #333;
+      margin-top: 2px;
+    }
+    .cart-badge {
+      font-size: 0.75rem;
+      padding: 2px 6px;
+    }
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 90vh;
+      background-image: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1950&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    }
+    .hero-content {
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      border-radius: 10px;
+      animation: fadeInUp 1s ease-out;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      animation: slideInDown 1s ease-out;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      animation: fadeIn 2s ease-in;
+    }
+    .hero-buttons {
+      margin-top: 1.5rem;
+      animation: fadeIn 2.5s ease-in;
+    }
+    .hero-buttons .btn {
+      margin: 0 0.5rem;
+      font-weight: 500;
+    }
+    .info-section {
+      padding: 4rem 2rem;
+      text-align: center;
+      background-color: #f9f9f9;
+      font-family: 'Rubik', sans-serif;
+    }
+    .info-section h2 {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #0d6efd;
+      font-size: 2.5rem;
+    }
+    .info-section p {
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      color: #444;
+      font-size: 1.15rem;
+    }
+    .animate {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+    .animate.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  .about-section {
+  background: linear-gradient(to right, #dbeafe, #eff6ff);
+  font-family: 'Rubik', sans-serif;
+}
+
+.about-img-fluid {
+  width: 100%;
+  max-width: 35%;
+  min-width: 280px;
+  height: auto;
+  transition: transform 0.5s ease;
+}
+
+.about-img-fluid:hover {
+  transform: scale(1.05);
+}
+
+.about-title {
+  color: #0d6efd;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.about-text p {
+  font-size: 1.15rem;
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+.animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.animate.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .hero-buttons {
+        flex-direction: column;
+      }
+      .hero-buttons .btn {
+        margin: 0.5rem 0;
+      }
+       .about-img-fluid {
+        max-width: 60%;
+     }
+    .about-title {
+        font-size: 2rem;
+     }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    /* FAQ Section */
+    .faq-section {
+  background-color: #f0f4ff;
+  font-family: 'Rubik', sans-serif;
+}
+
+.faq-title {
+  color: #0d6efd;
+  font-size: 2.3rem;
+  font-weight: 700;
+}
+
+.faq-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.accordion-item {
+  border: none;
+  margin-bottom: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.accordion-button {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+.animate-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: all 0.8s ease;
+}
+
+.animate-left.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-primary" href="#">ElectroMart</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">FAQs</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown">
+              Products
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+              <li><a class="dropdown-item" href="#">Television</a></li>
+              <li><a class="dropdown-item" href="#">Laptop</a></li>
+              <li><a class="dropdown-item" href="#">iPhone</a></li>
+              <li><a class="dropdown-item" href="#">Computer</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <a href="#" class="btn btn-outline-primary btn-sm btn-custom">Sign Up</a>
+          <a href="#" class="btn btn-primary btn-sm btn-custom">Login</a>
+          <div class="cart-wrapper">
+            <a href="#" class="icon">
+              🛒
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+                0
+              </span>
+            </a>
+            <div class="label">Cart</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!--Home section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to ElectroMart</h1>
+      <p>Your one-stop shop for the latest phones, laptops, and smart electronics. Explore innovation today.</p>
+      <div class="hero-buttons d-flex justify-content-center">
+        <a href="#" class="btn btn-primary">Shop Now</a>
+        <a href="#" class="btn btn-outline-light">Explore Products</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <h2 class="animate">Why Choose ElectroMart?</h2>
+    <p class="animate">At ElectroMart, we offer top-quality electronics at unbeatable prices. Whether you're looking for the latest smartphones, high performance laptops, or smart home gadgets, we've got you covered.</p>
+    <p class="animate">Our platform is secure, easy to use, and provides a seamless shopping experience. We are committed to customer satisfaction, quick delivery, and tech support when you need it most.</p>
+    <p class="animate">Start exploring our wide range of products today and upgrade your lifestyle with cutting edge technology!</p>
+  </section>
+
+
+ <!-- About Section -->
+<section class="about-section d-flex flex-column flex-md-row align-items-center justify-content-between px-4 px-md-5 py-5">
+  <div class="about-img animate text-center mb-4 mb-md-0">
+    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80" 
+         alt="Phone" 
+         class="rounded-circle shadow-lg about-img-fluid" />
+  </div>
+  <div class="about-text animate ms-md-5 text-center text-md-start">
+    <h2 class="about-title">About ElectroMart</h2>
+    <p>
+      At <strong>ElectroMart</strong>, we’re more than just an electronics store. We're your digital lifestyle partner.
+      Explore a wide range of modern gadgets designed to help you connect, create, and excel.
+    </p>
+    <p>
+      Whether you're shopping for the latest smartphones, laptops, or accessories, our platform offers fast delivery, genuine products, and top-tier customer support.
+    </p>
+  </div>
+</section>
+
+
+<!--FAQs ==============-->
+
+<section class="faq-section py-5 px-4 px-md-5">
+  <div class="text-center mb-5">
+    <h2 class="faq-title">Frequently Asked Questions</h2>
+    <p class="faq-subtitle">Answers to some common questions about ElectroMart</p>
+  </div>
+  <div class="accordion" id="faqAccordion">
+    <div class="accordion-item animate-left">
+      <h2 class="accordion-header" id="faq1">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+          What products does ElectroMart sell?
+        </button>
+      </h2>
+      <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          We sell smartphones, laptops, TVs, accessories, and other electronics.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item animate-left">
+      <h2 class="accordion-header" id="faq2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+          How do I place an order?
+        </button>
+      </h2>
+      <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Simply browse our products, add them to cart, and proceed to checkout to place your order.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item animate-left">
+      <h2 class="accordion-header" id="faq3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+          What payment methods do you accept?
+        </button>
+      </h2>
+      <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          We accept mobile money (M-Pesa), credit/debit cards, and secure online transfers.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item animate-left">
+      <h2 class="accordion-header" id="faq4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+          Is my personal information safe?
+        </button>
+      </h2>
+      <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Absolutely. We use end-to-end encryption and secure payment gateways to protect your data.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item animate-left">
+      <h2 class="accordion-header" id="faq5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
+          How fast is delivery?
+        </button>
+      </h2>
+      <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Delivery typically takes 1–3 working days depending on your location.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item animate-left">
+      <h2 class="accordion-header" id="faq6">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">
+          Can I return a product?
+        </button>
+      </h2>
+      <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Yes, we have a 7-day return policy if the product is in its original condition.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item animate-left">
+      <h2 class="accordion-header" id="faq7">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7">
+          How can I contact customer support?
+        </button>
+      </h2>
+      <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          You can reach us via our chatbot, contact form, or call our toll-free number.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.remove('show');
+        }
+      });
+    });
+
+    document.querySelectorAll('.animate').forEach(el => {
+      observer.observe(el);
+    });
+        document.querySelectorAll('.animate-left').forEach(el => {
+    observer.observe(el);
+    });
+
+  </script>
+</body>
+</html>

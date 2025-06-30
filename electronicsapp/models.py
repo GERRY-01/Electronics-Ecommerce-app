@@ -6,3 +6,7 @@ from django.contrib.auth.models import User
 class Registration(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=10)
+    
+class Adminregistration(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    fullname = models.CharField(max_length=100)

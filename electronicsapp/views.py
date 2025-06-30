@@ -58,3 +58,6 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('login')
+
+def adminsignup(request):
+    return render(request,'adminsignup.html')

@@ -294,8 +294,22 @@
           </li>
         </ul>
         <div class="d-flex align-items-center gap-3">
-          <a href="#" class="btn btn-outline-primary btn-sm btn-custom">Sign Up</a>
-          <a href="#" class="btn btn-primary btn-sm btn-custom">Login</a>
+            {% if user.is_authenticated %}
+            <div class="text-center">
+               <div class="rounded-circle bg-primary text-white fw-bold d-flex align-items-center justify-content-center"
+                style="width: 40px; height: 40px; font-size: 1.2rem;">
+                {{ user.username|first|upper }}
+               </div>
+               <div style="font-size: 0.9rem; font-weight: 500;">{{ user.username }}</div>
+            </div>
+            <form method="POST" action="">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+            </form>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn btn-outline-primary btn-sm btn-custom">Sign Up</a>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-sm btn-custom">Login</a>
+            {% endif %}
           <div class="cart-wrapper">
             <a href="#" class="icon">
               🛒

@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Registration
-
+from django.contrib.auth import authenticate,login as auth_login
 # Create your views here.
 
 def home(request):
@@ -28,6 +28,10 @@ def signup(request):
             messages.error(request, 'Username already exists.')
             return render(request, 'Signup.html')
         
+        if len(phone) != 10:
+            messages.error(request, 'Phone number should be 10 digits.')
+            return render(request, 'Signup.html')
+        
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
         
@@ -35,8 +39,18 @@ def signup(request):
         registration.save()
         
         messages.success(request, 'Registration successful. Now login')
-        return render(request, 'Login.html')
+        return redirect('login')
     return render(request,'Signup.html')
 
 def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return render(request, 'Login.html')
     return render(request,'Login.html')

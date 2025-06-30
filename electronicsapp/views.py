@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Registration
-from django.contrib.auth import authenticate,login as auth_login
+from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 # Create your views here.
 
 def home(request):
@@ -54,3 +54,7 @@ def login(request):
             messages.error(request, 'Invalid username or password.')
             return render(request, 'Login.html')
     return render(request,'Login.html')
+
+def logout(request):
+    auth_logout(request)
+    return redirect('login')

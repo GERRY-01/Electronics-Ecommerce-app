@@ -78,16 +78,17 @@
 
   <div class="login-container">
     <h2>Welcome Back</h2>
-    <form>
+    <form method="post"> 
+        {% csrf_token %}
       <div class="mb-3">
-        <label for="email" class="form-label">Email or Username</label>
-        <input type="text" class="form-control" id="email" placeholder="your@email.com" required>
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Your Password</label>
         <div class="input-group">
-          <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+          <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
           <span class="input-group-text" onclick="togglePassword()">
             <i id="eyeIcon" class="bi bi-eye"></i>
           </span>
@@ -103,6 +104,11 @@
       <p class="form-text mt-3 text-center">
         Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
       </p>
+      {% if messages %}
+      {%for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+      {% endif %}
     </form>
   </div>
 

@@ -52,30 +52,31 @@
 
   <div class="signup-container">
     <h2>Create Account</h2>
-    <form>
+    <form method='post'>
+        {% csrf_token %}
       <div class="mb-3">
-        <label for="fullname" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="fullname" placeholder="John Doe" required>
+        <label for="username" class="form-label">Userame</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="John" required>
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">Email Address</label>
-        <input type="email" class="form-control" id="email" placeholder="example@email.com" required>
+        <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com" required>
       </div>
 
       <div class="mb-3">
         <label for="phone" class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" id="phone" placeholder="07xx xxx xxx" required>
+        <input type="tel" class="form-control" id="phone" name="phone" placeholder="07xx xxx xxx" required>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Create Password</label>
-        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
       </div>
 
       <div class="mb-3">
         <label for="confirm-password" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" id="confirm-password" placeholder="••••••••" required>
+        <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
       </div>
 
       <button type="submit" class="btn btn-primary mt-2">Sign Up</button>
@@ -83,6 +84,11 @@
       <p class="form-text mt-3 text-center">
         Already have an account? <a href="{% url 'login' %}">Log in</a>
       </p>
+      {% if messages %}
+      {%for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+      {% endif %}
     </form>
   </div>
 

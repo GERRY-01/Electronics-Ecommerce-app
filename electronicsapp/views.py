@@ -60,7 +60,44 @@ def logout(request):
     return redirect('login')
 
 def adminsignup(request):
+    if request.method == 'POST':
+        fullname = request.POST.get('fullname')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm-password')
+
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, 'adminsignup.html')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists.')
+            return render(request, 'adminsignup.html')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists.')
+            return render(request, 'adminsignup.html')
+
+        user = User.objects.create_user(username=username, email=email, password=password,is_staff=True,is_superuser=True)
+        user.save()
+
+        adminregistration = adminregistration(user=user, fullname=fullname)
+        adminregistration.save()
+
+        messages.success(request, 'Admin registration successful. Now login')
+        return redirect('adminlogin')
     return render(request,'adminsignup.html')
 
 def adminlogin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('adminhome')
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return render(request, 'adminlogin.html')
     return render(request,'adminlogin.html')

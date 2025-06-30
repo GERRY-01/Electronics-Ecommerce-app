@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Registration
+from .models import Registration,Adminregistration
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 # Create your views here.
 
@@ -82,7 +82,7 @@ def adminsignup(request):
         user = User.objects.create_user(username=username, email=email, password=password,is_staff=True,is_superuser=True)
         user.save()
 
-        adminregistration = adminregistration(user=user, fullname=fullname)
+        adminregistration = Adminregistration(user=user, fullname=fullname)
         adminregistration.save()
 
         messages.success(request, 'Admin registration successful. Now login')
@@ -101,3 +101,6 @@ def adminlogin(request):
             messages.error(request, 'Invalid username or password.')
             return render(request, 'adminlogin.html')
     return render(request,'adminlogin.html')
+
+def adminhome(request):
+    return render(request,'adminhome.html')

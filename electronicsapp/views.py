@@ -61,3 +61,6 @@ def logout(request):
 
 def adminsignup(request):
     return render(request,'adminsignup.html')
+
+def adminlogin(request):
+    return render(request,'adminlogin.html')

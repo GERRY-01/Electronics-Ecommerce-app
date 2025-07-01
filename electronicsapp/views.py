@@ -127,3 +127,17 @@ def delete(request,id):
     product = Product.objects.get(id=id)
     product.delete()
     return redirect('adminhome')
+
+def editproduct(request,id):
+    product = Product.objects.get(id=id)
+    if request.method == 'POST':
+        product.name = request.POST.get('productname')
+        product.category = request.POST.get('category')
+        product.price = request.POST.get('price')
+        product.stock = request.POST.get('stock')
+        
+        if request.FILES.get('image'):
+            product.image = request.FILES.get('image')
+        product.save()
+        return redirect('adminhome')
+    return render(request,'editproduct.html',{'product':product})

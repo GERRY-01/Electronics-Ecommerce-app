@@ -113,9 +113,12 @@ def adminhome(request):
 
             product = Product(name=productname, category=category, price=price, stock=stock, image=image)
             product.save()
-
+        
             return redirect('adminhome')
+        
+        products = Product.objects.all()
+        
     else:
         messages.error(request, 'You are not authorized to access this page!!')
         return redirect('adminlogin')
-    return render(request,'adminhome.html')
+    return render(request,'adminhome.html',{'products':products})

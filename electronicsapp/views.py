@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Registration,Adminregistration
+from .models import Product, Registration,Adminregistration
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 # Create your views here.
 
@@ -103,4 +103,19 @@ def adminlogin(request):
     return render(request,'adminlogin.html')
 
 def adminhome(request):
+    if request.user.is_superuser == True:
+        if request.method == 'POST':
+            productname = request.POST.get('productname')
+            category = request.POST.get('category')
+            price = request.POST.get('price')
+            stock = request.POST.get('stock')
+            image = request.FILES.get('image')
+
+            product = Product(name=productname, category=category, price=price, stock=stock, image=image)
+            product.save()
+
+            return redirect('adminhome')
+    else:
+        messages.error(request, 'You are not authorized to access this page!!')
+        return redirect('adminlogin')
     return render(request,'adminhome.html')

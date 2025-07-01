@@ -122,3 +122,8 @@ def adminhome(request):
         messages.error(request, 'You are not authorized to access this page!!')
         return redirect('adminlogin')
     return render(request,'adminhome.html',{'products':products})
+
+def delete(request,id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return redirect('adminhome')

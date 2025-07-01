@@ -51,16 +51,17 @@
 
   <div class="login-box">
     <h2>Admin Login</h2>
-    <form>
+    <form method="post">
+        {% csrf_token %}
       <div class="mb-3">
-        <label for="adminUsername" class="form-label">Username or Email</label>
-        <input type="text" class="form-control" id="adminUsername" placeholder="admin@example.com">
+        <label for="adminUsername" class="form-label">Username</label>
+        <input type="text" class="form-control" id="adminUsername" name="username" placeholder="Username">
       </div>
 
       <div class="mb-3">
         <label for="adminPassword" class="form-label">Password</label>
         <div class="input-group">
-          <input type="password" class="form-control" id="adminPassword" placeholder="••••••••">
+          <input type="password" class="form-control" id="adminPassword" name="password" placeholder="••••••••">
           <span class="input-group-text" onclick="togglePassword('adminPassword', 'adminEye')">
             <i id="adminEye" class="bi bi-eye"></i>
           </span>
@@ -76,6 +77,11 @@
       <div class="form-footer">
         Don't have an admin account? <a href="{% url 'adminsignup' %}">Sign Up</a>
       </div>
+      {% if messages %}
+      {%for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+      {% endif %}
     </form>
   </div>
 

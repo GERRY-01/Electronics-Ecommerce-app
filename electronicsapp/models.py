@@ -10,3 +10,18 @@ class Registration(models.Model):
 class Adminregistration(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     fullname = models.CharField(max_length=100)
+    
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    categories = (
+        ('phones', 'phones'),
+        ('laptops', 'laptops'),
+        ('television', 'television'),
+        ('computers', 'computers'),
+        ('cables', 'cables'),
+        ) 
+    category = models.CharField(max_length=100, choices=categories)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.IntegerField()
+    image = models.ImageField(upload_to='product_images/', null=True, blank=True)
+   

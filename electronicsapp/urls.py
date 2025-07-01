@@ -11,4 +11,5 @@ urlpatterns = [
     path('adminhome',views.adminhome,name='adminhome'),
     #path('adminlogout',views.adminlogout,name='adminlogout'),
     path('delete/<int:id>',views.delete,name='delete'),
+    path('editproduct/<int:id>',views.editproduct,name='editproduct'),
 ]

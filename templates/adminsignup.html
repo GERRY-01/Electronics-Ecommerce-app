@@ -51,26 +51,27 @@
 
   <div class="signup-box">
     <h2>Admin Signup</h2>
-    <form>
+    <form method="post">
+        {% csrf_token %}
       <div class="mb-3">
         <label for="adminName" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="adminName" placeholder="Admin Name">
+        <input type="text" class="form-control" id="adminName" name="fullname" placeholder="Admin Name">
       </div>
 
       <div class="mb-3">
         <label for="adminEmail" class="form-label">Email</label>
-        <input type="email" class="form-control" id="adminEmail" placeholder="admin@example.com">
+        <input type="email" class="form-control" id="adminEmail" name="email" placeholder="admin@example.com">
       </div>
 
       <div class="mb-3">
         <label for="adminUsername" class="form-label">Username</label>
-        <input type="text" class="form-control" id="adminUsername" placeholder="admin123">
+        <input type="text" class="form-control" id="adminUsername" name="username" placeholder="admin123">
       </div>
 
       <div class="mb-3">
         <label for="adminPassword" class="form-label">Password</label>
         <div class="input-group">
-          <input type="password" class="form-control" id="adminPassword" placeholder="••••••••">
+          <input type="password" class="form-control" id="adminPassword" name="password" placeholder="••••••••">
           <span class="input-group-text" onclick="togglePassword('adminPassword', 'adminEye1')">
             <i id="adminEye1" class="bi bi-eye"></i>
           </span>
@@ -80,7 +81,7 @@
       <div class="mb-3">
         <label for="confirmPassword" class="form-label">Confirm Password</label>
         <div class="input-group">
-          <input type="password" class="form-control" id="confirmPassword" placeholder="••••••••">
+          <input type="password" class="form-control" id="confirmPassword" name="confirm-password" placeholder="••••••••">
           <span class="input-group-text" onclick="togglePassword('confirmPassword', 'adminEye2')">
             <i id="adminEye2" class="bi bi-eye"></i>
           </span>
@@ -92,6 +93,11 @@
       <div class="form-footer">
         Already have an account? <a href="{% url 'adminlogin' %}">Login</a>
       </div>
+      {% if messages %}
+      {%for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+      {% endif %}
     </form>
   </div>
 

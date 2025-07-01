@@ -96,7 +96,7 @@
               <table class="table align-middle table-striped">
                 <thead class="table-light">
                   <tr>
-                    <th>#</th>
+                    <th>PK</th>
                     <th>Image</th>
                     <th>Product</th>
                     <th>Category</th>
@@ -106,30 +106,24 @@
                   </tr>
                 </thead>
                 <tbody>
+                    {% for product in products %}
                   <tr>
-                    <td>1</td>
-                    <td><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=60&h=60&fit=crop" class="img-thumbnail" /></td>
-                    <td>iPhone 14</td>
-                    <td>Phones</td>
-                    <td>$999</td>
-                    <td>25</td>
+                    <td>{{product.id}}</td>
+                    {% if product.image %}
+                    <td><img src="{{product.image.url}}" class="img-thumbnail" /></td>
+                    {% else %}
+                    <td>No image</td>
+                    {% endif %}
+                    <td>{{product.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td>${{product.price}}</td>
+                    <td>{{product.stock}}</td>
                     <td>
                       <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>
                       <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>2</td>
-                    <td><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=60&h=60&fit=crop" class="img-thumbnail" /></td>
-                    <td>MacBook Pro</td>
-                    <td>Laptops</td>
-                    <td>$1899</td>
-                    <td>10</td>
-                    <td>
-                      <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>
-                      <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -139,43 +133,51 @@
         <!-- Add Product Modal -->
         <div class="modal fade" id="addProductModal" tabindex="-1">
           <div class="modal-dialog">
-            <form class="modal-content">
+            <form class="modal-content" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if request.user.is_authenticated and request.user.is_staff %}
               <div class="modal-header">
                 <h5 class="modal-title">Add Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
+               {% endif %}
               <div class="modal-body">
                 <div class="mb-3">
                   <label class="form-label">Product Name</label>
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" name="productname" />
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Category</label>
-                  <select class="form-select">
-                    <option>Phones</option>
-                    <option>Laptops</option>
-                    <option>Television</option>
-                    <option>Computers</option>
-                    <option>Charger and cables</option>
+                  <select class="form-select" name="category">
+                    <option value="phones">Phones</option>
+                    <option value="laptops">Laptops</option>
+                    <option value="television">Television</option>
+                    <option value="computers">Computers</option>
+                    <option value="cables">Charger and cables</option>
 
                   </select>
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Price</label>
-                  <input type="number" class="form-control" />
+                  <input type="number" class="form-control" name="price" />
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Stock</label>
-                  <input type="number" class="form-control" />
+                  <input type="number" class="form-control" name="stock" />
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Product Image</label>
-                  <input type="file" class="form-control" />
+                  <input type="file" class="form-control" name="image" />
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-success">Save</button>
               </div>
+              {% if messages%}
+              {% for message in messages %}
+              <p>{{message}}</p>
+              {% endfor %}
+              {% endif %}
             </form>
           </div>
         </div>

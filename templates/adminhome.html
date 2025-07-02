@@ -77,7 +77,7 @@
         <a href="#"><i class="bi bi-person-lines-fill me-2"></i> Users</a>
         <a href="#"><i class="bi bi-bar-chart-line-fill me-2"></i> Reports</a>
         <a href="#"><i class="bi bi-gear-fill me-2"></i> Settings</a>
-        <a href="#" class="text-danger"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
+        <a href="{% url 'logout' %}" class="text-danger"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
       </div>
 
       <!-- Main Content -->
@@ -119,8 +119,15 @@
                     <td>${{product.price}}</td>
                     <td>{{product.stock}}</td>
                     <td>
-                      <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>
-                      <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                      <a href="{% url 'editproduct' product.id %}" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
+
+                      <form method="POST" action="{% url 'delete' product.id %}" style="display:inline;">
+                             {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i>
+                            </button>
+                      </form>
+
                     </td>
                   </tr>
                   {% endfor %}

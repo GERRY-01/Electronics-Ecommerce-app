@@ -15,6 +15,7 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
+      padding-top: 80px;
     }
     .nav-link {
       transition: all 0.3s ease;
@@ -336,7 +337,7 @@
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold text-primary" href="#">ElectroMart</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -543,84 +544,22 @@
     <h2 class="text-center mb-5 fw-bold text-primary fade-in">Our Products</h2>
     <div class="row">
       
-      <!-- Product Card 1 -->
+      <!-- Products -->
+       {% for product in products %}
       <div class="col-sm-6 col-md-4 col-lg-3 mb-4 fade-in">
         <div class="card product-card shadow-sm">
           <div class="position-relative">
-            <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-1inch-deeppurple?wid=512&hei=512&fmt=jpeg&qlt=90&.v=1660753619946" class="product-img" alt="iPhone 14 Pro">
-            <div class="overlay">In Stock: 10</div>
+            <img src="{{product.image.url}}" class="product-img" alt="{{product.name}}">
+            <div class="overlay">In Stock: {{product.stock}}</div>
           </div>
           <div class="product-body">
-            <h5>iPhone 14</h5>
-            <p>$999.00</p>
-            <div class="d-flex align-items-center mb-2">
-              <label class="me-2 mb-0">Qty:</label>
-              <input type="number" min="1" value="1" class="form-control form-control-sm quantity-input">
-            </div>
-            <button class="btn btn-primary w-100">Add to Cart</button>
+            <h5>{{product.name}}</h5>
+            <p>${{product.price}}</p>
+            <button class="btn btn-primary w-100 add-to-cart-btn">Add to Cart</button>
           </div>
         </div>
       </div>
-
-      <!-- Product Card 2 -->
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-4 fade-in">
-        <div class="card product-card shadow-sm">
-          <div class="position-relative">
-           <img src="https://images.samsung.com/is/image/samsung/p6pim/ke/ua43au7000uxke/gallery/ke-uhd-au7000-ua43au7000uxke-533151470?$650_519_PNG$" class="product-img" alt="Samsung TV">
-            <div class="overlay">In Stock: 15</div>
-          </div>
-          <div class="product-body">
-            <h5>MacBook Pro</h5>
-            <p>$1,299.00</p>
-            <div class="d-flex align-items-center mb-2">
-              <label class="me-2 mb-0">Qty:</label>
-              <input type="number" min="1" value="1" class="form-control form-control-sm quantity-input">
-            </div>
-            <button class="btn btn-primary w-100">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 3 -->
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-4 fade-in">
-        <div class="card product-card shadow-sm">
-          <div class="position-relative">
-            <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310?wid=512&hei=512&fmt=jpeg&qlt=90&.v=1697311074829" class="product-img" alt="MacBook Pro">
-            <div class="overlay">In Stock: 8</div>
-          </div>
-          <div class="product-body">
-            <h5>Samsung Smart TV</h5>
-            <p>$749.99</p>
-            <div class="d-flex align-items-center mb-2">
-              <label class="me-2 mb-0">Qty:</label>
-              <input type="number" min="1" value="1" class="form-control form-control-sm quantity-input">
-            </div>
-            <button class="btn btn-primary w-100">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 4 -->
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-4 fade-in">
-        <div class="card product-card shadow-sm">
-          <div class="position-relative">
-            <img src="https://m.media-amazon.com/images/I/81r8JaznLUL._AC_UF894,1000_QL80_.jpg" class="product-img" alt="Gaming Laptop">
-            <div class="overlay">In Stock: 20</div>
-          </div>
-          <div class="product-body">
-            <h5>Gaming Laptop</h5>
-            <p>$1,499.00</p>
-            <div class="d-flex align-items-center mb-2">
-              <label class="me-2 mb-0">Qty:</label>
-              <input type="number" min="1" value="1" class="form-control form-control-sm quantity-input">
-            </div>
-            <button class="btn btn-primary w-100">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Add more cards if needed -->
-
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -651,6 +590,26 @@
     duration: 800,
     once: true,
     });
+
+
+     document.addEventListener("DOMContentLoaded", function () {
+    let cartBadge = document.querySelector(".cart-badge");
+    let cartCount = 0;
+
+    document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+      button.addEventListener("click", function () {
+        // Increment cart count
+        cartCount += 1;
+        cartBadge.textContent = cartCount;
+
+        // Change button text and disable it
+        button.textContent = "Added to Cart";
+        button.classList.remove("btn-primary");
+        button.classList.add("btn-success");
+        button.disabled = true;
+      });
+    });
+  });
 
 </script>
 </body>

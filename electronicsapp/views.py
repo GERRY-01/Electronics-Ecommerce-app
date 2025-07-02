@@ -6,7 +6,8 @@ from django.contrib.auth import authenticate,login as auth_login,logout as auth_
 # Create your views here.
 
 def home(request):
-    return render(request,'home.html')
+    products = Product.objects.all()
+    return render(request,'home.html',{'products':products})
 
 def signup(request):
     if request.method == 'POST':
@@ -56,7 +57,10 @@ def login(request):
     return render(request,'Login.html')
 
 def logout(request):
+    is_admin = request.user.is_superuser
     auth_logout(request)
+    if is_admin:
+        return redirect('adminlogin')
     return redirect('login')
 
 def adminsignup(request):

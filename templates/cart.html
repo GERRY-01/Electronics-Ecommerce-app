@@ -93,19 +93,25 @@
           <h5 class="mb-1">{{item.product.name}}</h5>
           <p class="text-success fw-semi mb-1">${{item.product.price}}</p>
           <small class="text-muted">Stock: {{item.product.stock}}</small>
-          <div class="d-flex align-items-center gap-2 mt-2">
-            <label class="mb-0">Qty:</label>
-            <input type="number" class="form-control form-control-sm" value="1" min="1" style="width: 80px;">
-          </div>
-          <button class="remove-btn mt-2">🗑️ Remove</button>
+
+            <form method="POST" action="{% url 'update_cart' item.id %}" class="d-flex align-items-center gap-2 mt-2">
+               {% csrf_token %}
+              <label class="mb-0">Qty:</label>
+               <input type="number" name="quantity" min="1" value="{{ item.quantity }}" class="form-control form-control-sm" style="width: 80px;" onchange="this.form.submit()">
+            </form>
+
+            <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                {% csrf_token %}
+                <button class="remove-btn mt-2">🗑️ Remove</button>
+            </form>
         </div>
       </div>
       {% endfor %}
 
     <!-- Checkout Section -->
     <div class="checkout-bar d-flex justify-content-between align-items-center mt-4 flex-wrap">
-      <div><strong>Total:</strong> $<span id="total-price">2,097.00</span></div>
-      <button class="btn btn-primary mt-3 mt-md-0">Checkout $<span id="checkout-price">2,097.00</span></button>
+      <div><strong>Total:</strong> $<span id="total-price">{{total_price}}</span></div>
+      <button class="btn btn-primary mt-3 mt-md-0">Checkout $<span id="checkout-price">{{total_price}}</span></button>
     </div>
   </div>
 

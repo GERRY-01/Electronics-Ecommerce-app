@@ -332,11 +332,17 @@
       transform: translateY(0);
     }
   }
+  #flash-message .alert {
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  color: red;
+  }
 
 
   </style>
 </head>
 <body>
+
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold text-primary" href="#">ElectroMart</a>
@@ -396,6 +402,17 @@
       </div>
     </div>
   </nav>
+
+  {% if messages %}
+  <div id="flash-message" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1055; min-width: 300px;">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} text-center" role="alert" style="border-radius: 0.25rem;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 
   <!--Home section -->
   <section class="hero">
@@ -538,6 +555,7 @@
   </div>
 </section>
 
+
 <!-- Product Section -->
 <section class="py-5">
   <div class="container">
@@ -554,13 +572,12 @@
           </div>
           <div class="product-body">
             <h5>{{product.name}}</h5>
-            <p>${{product.price}}</p>
+            <p>Ksh{{product.price}}</p>
 
             <form method="POST" action="{% url 'add_to_cart' product.id %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary w-100">Add to Cart</button>
             </form>
-
           </div>
         </div>
       </div>
@@ -595,6 +612,18 @@
     duration: 800,
     once: true,
     });
+
+     window.addEventListener('DOMContentLoaded', () => {
+    const flash = document.getElementById('flash-message');
+    if (flash) {
+      setTimeout(() => {
+        // fade out smoothly
+        flash.style.transition = "opacity 0.8s ease";
+        flash.style.opacity = 0;
+        setTimeout(() => flash.remove(), 800); // remove after fade out
+      }, 5000); // 5000 ms = 5 seconds
+    }
+  });
 
 </script>
 </body>

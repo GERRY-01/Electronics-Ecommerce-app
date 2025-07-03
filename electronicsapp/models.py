@@ -25,3 +25,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)
    
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)

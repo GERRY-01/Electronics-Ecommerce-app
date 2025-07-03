@@ -75,6 +75,51 @@
         text-align: center;
       }
     }
+     .payment-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1050;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .payment-modal.show {
+    display: flex;
+  }
+
+  .payment-card {
+    background: #fff;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
   </style>
 </head>
 <body>
@@ -84,6 +129,8 @@
       <h2 class="fw-bold text-primary">Your Cart</h2>
       <p class="text-muted">Cart (<span id="cart-count">{{cart_count}}</span> items)</p>
     </div>
+    
+    <a href="{% url 'home' %}" style="display: inline-block; padding: 8px 16px; background-color: #0d6efd; color: white; text-decoration: none; border-radius: 5px; font-weight: 500; transition: background-color 0.3s;">← Back Home</a>
 
     <div id="cart-items">
       {% for item in cart_items %}
@@ -91,12 +138,12 @@
         <img src="{{item.product.image.url}}" alt="{{item.product.name}}" class="cart-img" />
         <div class="product-info">
           <h5 class="mb-1">{{item.product.name}}</h5>
-          <p class="text-success fw-semi mb-1">${{item.product.price}}</p>
+          <p class="text-success fw-semi mb-1"> Ksh {{item.product.price}}</p>
           <small class="text-muted">Stock: {{item.product.stock}}</small>
 
             <form method="POST" action="{% url 'update_cart' item.id %}" class="d-flex align-items-center gap-2 mt-2">
                {% csrf_token %}
-              <label class="mb-0">Qty:</label>
+              <label class="mb-0">Quantity:</label>
                <input type="number" name="quantity" min="1" value="{{ item.quantity }}" class="form-control form-control-sm" style="width: 80px;" onchange="this.form.submit()">
             </form>
 
@@ -105,15 +152,46 @@
                 <button class="remove-btn mt-2">🗑️ Remove</button>
             </form>
         </div>
-      </div>
+    </div>
       {% endfor %}
 
-    <!-- Checkout Section -->
-    <div class="checkout-bar d-flex justify-content-between align-items-center mt-4 flex-wrap">
-      <div><strong>Total:</strong> $<span id="total-price">{{total_price}}</span></div>
-      <button class="btn btn-primary mt-3 mt-md-0">Checkout $<span id="checkout-price">{{total_price}}</span></button>
-    </div>
+ <!-- Checkout Bar -->
+<div class="checkout-bar d-flex justify-content-between align-items-center mt-4 flex-wrap">
+  <div><strong>Total:</strong> Ksh<span id="total-price">{{total_price}}</span></div>
+  <button class="btn btn-primary mt-3 mt-md-0" onclick="showPaymentModal()">Checkout Ksh <span id="checkout-price">{{total_price}}</span></button>
+</div>
+
+<!-- Payment Modal -->
+<div id="payment-modal" class="payment-modal">
+  <div class="payment-card">
+    <button class="close-btn" onclick="hidePaymentModal()">✕</button>
+    <h5 class="text-center mb-4 text-primary">
+      Payment for all products worth Ksh<span id="modal-total">{{total_price}}</span>
+    </h5>
+    <form>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="tel" id="phone" class="form-control" placeholder="e.g. 0712345678" required />
+      </div>
+      <button type="submit" class="btn btn-success w-100">Pay Now</button>
+    </form>
   </div>
+</div>
+
+
+
+<script>
+  function showPaymentModal() {
+    const modal = document.getElementById('payment-modal');
+    const total = document.getElementById('total-price').innerText;
+    document.getElementById('modal-total').innerText = total;
+    modal.classList.add('show');
+  }
+
+  function hidePaymentModal() {
+    document.getElementById('payment-modal').classList.remove('show');
+  }
+</script>
 
 </body>
 </html>

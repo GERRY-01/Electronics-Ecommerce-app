@@ -160,9 +160,30 @@ def add_to_cart(request, product_id):
     return redirect('home')
 
 def cart(request):
+    total_price = sum(item.product.price * item.quantity for item in Cart.objects.filter(user=request.user))
     cart_count = 0
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
         cart_count = cart_items.count()
     cart_items = Cart.objects.filter(user=request.user)
-    return render(request, 'cart.html', {'cart_items': cart_items, 'cart_count': cart_count})
+    return render(request, 'cart.html', {'cart_items': cart_items, 'cart_count': cart_count, 'total_price': total_price})
+
+def update_cart(request, cart_item_id):
+    if request.method == 'POST':
+        try:
+            cart_item = Cart.objects.get(id=cart_item_id, user=request.user)
+            new_quantity = int(request.POST.get('quantity', 1))
+            if 1 <= new_quantity <= cart_item.product.stock:
+                cart_item.quantity = new_quantity
+                cart_item.save()
+        except (Cart.DoesNotExist, ValueError):
+            pass
+    return redirect('cart')
+
+def remove_from_cart(request, cart_item_id):
+    try:
+        cart_item = Cart.objects.get(id=cart_item_id, user=request.user)
+        cart_item.delete()
+    except Cart.DoesNotExist:
+        pass
+    return redirect('cart')

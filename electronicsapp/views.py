@@ -160,5 +160,9 @@ def add_to_cart(request, product_id):
     return redirect('home')
 
 def cart(request):
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user)
+        cart_count = cart_items.count()
     cart_items = Cart.objects.filter(user=request.user)
-    return render(request, 'cart.html', {'cart_items': cart_items})
+    return render(request, 'cart.html', {'cart_items': cart_items, 'cart_count': cart_count})

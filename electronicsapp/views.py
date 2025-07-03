@@ -161,6 +161,7 @@ def add_to_cart(request, product_id):
     if not created:
         cart_item.quantity += 1
         cart_item.save()
+    messages.success(request, 'Item added to cart successfully.')
     return redirect('home')
 
 def cart(request):

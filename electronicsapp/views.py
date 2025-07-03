@@ -9,7 +9,7 @@ def home(request):
     cart_count = 0
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
-        cart_count = cart_items.count()
+        cart_count = sum(item.quantity for item in cart_items)
     products = Product.objects.all()
     return render(request,'home.html',{'products':products,'cart_count':cart_count})
 
@@ -164,8 +164,7 @@ def cart(request):
     cart_count = 0
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
-        cart_count = cart_items.count()
-    cart_items = Cart.objects.filter(user=request.user)
+        cart_count = sum(item.quantity for item in cart_items)
     return render(request, 'cart.html', {'cart_items': cart_items, 'cart_count': cart_count, 'total_price': total_price})
 
 def update_cart(request, cart_item_id):

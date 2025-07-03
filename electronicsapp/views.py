@@ -1,13 +1,17 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Product, Registration,Adminregistration
+from .models import Cart, Product, Registration,Adminregistration
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 # Create your views here.
 
 def home(request):
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user)
+        cart_count = cart_items.count()
     products = Product.objects.all()
-    return render(request,'home.html',{'products':products})
+    return render(request,'home.html',{'products':products,'cart_count':cart_count})
 
 def signup(request):
     if request.method == 'POST':
@@ -146,5 +150,15 @@ def editproduct(request,id):
         return redirect('adminhome')
     return render(request,'editproduct.html',{'product':product})
 
+
+def add_to_cart(request, product_id):
+    product = Product.objects.get(id=product_id)
+    cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    return redirect('home')
+
 def cart(request):
-    return render(request,'cart.html')
+    cart_items = Cart.objects.filter(user=request.user)
+    return render(request, 'cart.html', {'cart_items': cart_items})

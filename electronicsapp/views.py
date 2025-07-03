@@ -145,3 +145,6 @@ def editproduct(request,id):
         product.save()
         return redirect('adminhome')
     return render(request,'editproduct.html',{'product':product})
+
+def cart(request):
+    return render(request,'cart.html')

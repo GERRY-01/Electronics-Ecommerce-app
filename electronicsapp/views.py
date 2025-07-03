@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Cart, Product, Registration,Adminregistration
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
@@ -152,6 +153,9 @@ def editproduct(request,id):
 
 
 def add_to_cart(request, product_id):
+    if not request.user.is_authenticated:
+        messages.error(request, 'You must be logged in to add items to the cart.')
+        return redirect('home')
     product = Product.objects.get(id=product_id)
     cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
     if not created:

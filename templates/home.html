@@ -384,10 +384,10 @@
                 <a href="{% url 'login' %}" class="btn btn-primary btn-sm btn-custom">Login</a>
             {% endif %}
           <div class="cart-wrapper">
-            <a href="#" class="icon">
+            <a href="{% url 'cart' %}" class="icon">
               🛒
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
-                0
+                {{cart_count}}
               </span>
             </a>
             <div class="label">Cart</div>
@@ -555,7 +555,12 @@
           <div class="product-body">
             <h5>{{product.name}}</h5>
             <p>${{product.price}}</p>
-            <button class="btn btn-primary w-100 add-to-cart-btn">Add to Cart</button>
+
+            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary w-100">Add to Cart</button>
+            </form>
+
           </div>
         </div>
       </div>
@@ -590,26 +595,6 @@
     duration: 800,
     once: true,
     });
-
-
-     document.addEventListener("DOMContentLoaded", function () {
-    let cartBadge = document.querySelector(".cart-badge");
-    let cartCount = 0;
-
-    document.querySelectorAll(".add-to-cart-btn").forEach(button => {
-      button.addEventListener("click", function () {
-        // Increment cart count
-        cartCount += 1;
-        cartBadge.textContent = cartCount;
-
-        // Change button text and disable it
-        button.textContent = "Added to Cart";
-        button.classList.remove("btn-primary");
-        button.classList.add("btn-success");
-        button.disabled = true;
-      });
-    });
-  });
 
 </script>
 </body>

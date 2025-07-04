@@ -132,6 +132,7 @@
     
     <a href="{% url 'home' %}" style="display: inline-block; padding: 8px 16px; background-color: #0d6efd; color: white; text-decoration: none; border-radius: 5px; font-weight: 500; transition: background-color 0.3s;">← Back Home</a>
 
+    {% if cart_items %}
     <div id="cart-items">
       {% for item in cart_items %}
       <div class="cart-item">
@@ -160,6 +161,10 @@
   <div><strong>Total:</strong> Ksh<span id="total-price">{{total_price}}</span></div>
   <button class="btn btn-primary mt-3 mt-md-0" onclick="showPaymentModal()">Checkout Ksh <span id="checkout-price">{{total_price}}</span></button>
 </div>
+ {% else %}
+    <p class="text-center text-muted fs-5 my-5">Your cart is empty. <a href="{% url 'home' %} " style="text-decoration: none;">Continue shopping</a>.</p>
+{% endif %}
+
 
 
 <!-- Payment Modal -->

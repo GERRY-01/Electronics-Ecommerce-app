@@ -191,3 +191,4 @@ def remove_from_cart(request, cart_item_id):
     except Cart.DoesNotExist:
         pass
     return redirect('cart')
+

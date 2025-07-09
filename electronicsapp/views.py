@@ -1,9 +1,15 @@
+import base64
+from datetime import datetime
+from urllib import response
+from django.conf import settings
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+import requests
 from .models import Cart, Product, Registration,Adminregistration
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from requests.auth import HTTPBasicAuth
 # Create your views here.
 
 def home(request):
@@ -192,3 +198,60 @@ def remove_from_cart(request, cart_item_id):
         pass
     return redirect('cart')
 
+def get_access_token(request):
+    consumer_key = settings.MPESA_CONSUMER_KEY
+    consumer_secret = settings.MPESA_CONSUMER_SECRET
+    api_URL = settings.MPESA_API_URL
+    r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+    return r.json()['access_token']
+
+def lipa_na_mpesa(request):
+    if request.method == 'POST':
+        phone = request.POST.get("phone")
+        amount = float(request.POST.get("amount"))
+        
+        if phone.startswith("07") and len(phone) == 10:
+            phone = "254" + phone[1:]
+        elif phone.startswith("+254") and len(phone) == 13:
+            phone = phone[1:]
+        elif phone.startswith("254") and len(phone) == 12:
+            phone = phone
+        else:
+            messages.error(request,"Invalid phone number")
+            return redirect("home")
+        
+        phone = phone.strip().replace(" ", "")
+
+        
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        data_to_encode = f"{settings.MPESA_SHORTCODE}{settings.MPESA_PASSKEY}{timestamp}"
+        password = base64.b64encode(data_to_encode.encode()).decode()
+        
+        access_token = get_access_token(request)
+        base_url = settings.LIPA_NA_MPESA_URL
+        headers = {"Authorization": "Bearer %s" % access_token}
+        payload = {
+            "BusinessShortCode": settings.MPESA_SHORTCODE,
+            "Password": password,
+            "Timestamp": timestamp,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": amount,
+            "PartyA": phone,
+            "PartyB": settings.MPESA_SHORTCODE,
+            "PhoneNumber": phone,
+            "CallBackURL": "https://mydomain.com/payload",
+            "AccountReference": "Car Booking",
+            "TransactionDesc": "Payment of Electronics"
+        }
+        
+        res = requests.post(base_url, json=payload, headers=headers)
+        res_data = res.json()
+    
+        if res_data.get("ResponseCode") == "0":
+            messages.success(request, "Payment request sent. Check your phone.")
+        else:
+            messages.error(request, res_data.get("errorMessage", "Something went wrong. Try again."))
+
+        return redirect("home")
+    return render(request,'home.html')
+    

@@ -266,5 +266,9 @@ def lipa_na_mpesa(request):
 
         return redirect("home")
     return render(request,'home.html')
+
+def contact_messages(request):
+    contact_data = Contact.objects.all()
+    return render(request, 'contact_messages.html',{'contact_data':contact_data})
     
     

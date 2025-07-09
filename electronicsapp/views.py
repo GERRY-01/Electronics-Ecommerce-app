@@ -6,7 +6,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 import requests
-from .models import Cart, Product, Registration,Adminregistration
+from .models import Cart, Product, Registration,Adminregistration,Contact
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from requests.auth import HTTPBasicAuth
@@ -18,6 +18,18 @@ def home(request):
         cart_items = Cart.objects.filter(user=request.user)
         cart_count = sum(item.quantity for item in cart_items)
     products = Product.objects.all()
+    
+    if request.method == 'POST':
+        form_type = request.POST.get('form_type')
+        if form_type == "contact_form":
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            subject = request.POST.get('subject')
+            message = request.POST.get('message')
+            contact = Contact(name=name, email=email, subject=subject, message=message)
+            contact.save() 
+            messages.success(request, 'Message sent successfully.')
+            return redirect('home')       
     return render(request,'home.html',{'products':products,'cart_count':cart_count})
 
 def signup(request):
@@ -254,4 +266,5 @@ def lipa_na_mpesa(request):
 
         return redirect("home")
     return render(request,'home.html')
+    
     

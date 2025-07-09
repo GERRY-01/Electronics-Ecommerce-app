@@ -174,10 +174,12 @@
     <h5 class="text-center mb-4 text-primary">
       Payment for all products worth Ksh<span id="modal-total">{{total_price}}</span>
     </h5>
-    <form>
+    <form method="post" action="{% url 'lipa_na_mpesa' %}">
+        {% csrf_token %}
       <div class="mb-3">
         <label for="phone" class="form-label">Phone Number</label>
-        <input type="tel" id="phone" class="form-control" placeholder="e.g. 0712345678" required />
+        <input type="tel" id="phone" name="phone" class="form-control" placeholder="e.g. 0712345678" required />
+        <input type="hidden" name="amount" value="{{ total_price }}">
       </div>
       <button type="submit" class="btn btn-success w-100">Pay Now</button>
     </form>

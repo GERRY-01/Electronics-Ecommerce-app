@@ -29,6 +29,7 @@ ElectroMart is a modern e-commerce web application for selling electronic produc
 
    ```bash
    git clone https://github.com/GERRY-01/Electronics-Ecommerce-app
+   cd Electronics-Ecommerce-app/
    ```
 
 ## 2 Install dependancies 

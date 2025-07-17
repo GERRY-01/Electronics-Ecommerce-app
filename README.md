@@ -37,10 +37,10 @@ ElectroMart is a modern e-commerce web application for selling electronic produc
     pip install -r requirements.txt
 
 ```
-### 3 Set up environment variables
+## 3 Set up environment variables
 Create a .env file with your credentials:
 
-# Email SMTP Configuration
+### Email SMTP Configuration
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
@@ -48,7 +48,7 @@ EMAIL_USE_TLS=True
 EMAIL_HOST_USER=your_email@gmail.com
 EMAIL_HOST_PASSWORD=your_email_app_password
 
-# M-Pesa Daraja API (Sandbox or Production)
+### M-Pesa Daraja API (Sandbox or Production)
 MPESA_CONSUMER_KEY=your_mpesa_consumer_key
 MPESA_CONSUMER_SECRET=your_mpesa_consumer_secret
 MPESA_PASSKEY=your_mpesa_passkey
@@ -56,7 +56,7 @@ MPESA_API_URL=https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=clien
 LIPA_NA_MPESA_URL=https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
 MPESA_SHORTCODE=your_shortcode
 
-# PostgreSQL Database Settings
+### PostgreSQL Database Settings
 DATABASE_NAME=your_database_name
 DATABASE_USER=your_database_user
 DATABASE_PASSWORD=your_database_password
